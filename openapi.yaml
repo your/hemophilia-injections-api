@@ -1,0 +1,378 @@
+openapi: 3.0.0
+info:
+  title: Patient Injection API
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /api/v1/patients:
+    post:
+      summary: Create a new patient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  example: "John"
+                last_name:
+                  type: string
+                  example: "Doe"
+                email:
+                  type: string
+                  example: "john.doe@example.com"
+                date_of_birth:
+                  type: string
+                  format: date
+                  example: "1987-01-01"
+      responses:
+        '201':
+          description: Patient created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      type:
+                        type: string
+                        example: "patients"
+                      attributes:
+                        type: object
+                        properties:
+                          api_key:
+                            type: string
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        detail:
+                          type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        detail:
+                          type: string
+                        code:
+                          type: string
+                          example: "500"
+
+  /api/v1/patients/{patient_id}/adherence_score:
+    get:
+      summary: Get adherence score for a patient
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: patient_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Adherence score retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      type:
+                        type: string
+                        example: "patients"
+                      attributes:
+                        type: object
+                        properties:
+                          adherence_score:
+                            type: number
+        '401':
+          description: Unauthorized - Invalid API key
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        detail:
+                          type: string
+                        code:
+                          type: string
+                          example: "401"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        detail:
+                          type: string
+                        code:
+                          type: string
+                          example: "500"
+
+  /api/v1/patients/{patient_id}/injections:
+    get:
+      summary: Get injections for a patient
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: patient_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of injections
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        type:
+                          type: string
+                          example: "injections"
+                        attributes:
+                          type: object
+                          properties:
+                            dose_mm:
+                              type: number
+                            lot_number:
+                              type: string
+                            drug_name:
+                              type: string
+                            date:
+                              type: string
+                              format: date
+        '401':
+          description: Unauthorized - Invalid API key
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        detail:
+                          type: string
+                        code:
+                          type: string
+                          example: "401"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        detail:
+                          type: string
+                        code:
+                          type: string
+                          example: "500"
+
+    post:
+      summary: Create a new injection for a patient
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: patient_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dose_mm:
+                  type: number
+                  example: 100
+                lot_number:
+                  type: string
+                  example: "LOT123"
+                drug_name:
+                  type: string
+                  example: "Factor Con A"
+                date:
+                  type: string
+                  format: date
+                  example: "2024-09-04"
+      responses:
+        '201':
+          description: Injection created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: "injections"
+                      id:
+                        type: integer
+                      attributes:
+                        type: object
+                        properties:
+                          dose_mm:
+                            type: number
+                          lot_number:
+                            type: string
+                          drug_name:
+                            type: string
+                          date:
+                            type: string
+                            format: date
+        '401':
+          description: Unauthorized - Invalid API key
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        detail:
+                          type: string
+                        code:
+                          type: string
+                          example: "401"
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        detail:
+                          type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        detail:
+                          type: string
+                        code:
+                          type: string
+                          example: "500"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+  schemas:
+    Patient:
+      type: object
+      properties:
+        id:
+          type: integer
+        api_key:
+          type: string
+        adherence_score:
+          type: number
+
+    Injection:
+      type: object
+      properties:
+        dose_mm:
+          type: number
+        lot_number:
+          type: string
+        drug_name:
+          type: string
+        date:
+          type: string
+          format: date
