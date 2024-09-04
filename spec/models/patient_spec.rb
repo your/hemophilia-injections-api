@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe Patient, type: :model do
   subject { build(:patient) }
 
+  context 'associations' do
+    it { is_expected.to have_many(:injections) }
+  end
+
   describe 'validations' do
     it { is_expected.to validate_presence_of(:first_name) }
     it { is_expected.to validate_presence_of(:last_name) }
