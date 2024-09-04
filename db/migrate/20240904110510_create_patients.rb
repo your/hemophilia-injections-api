@@ -11,6 +11,6 @@ class CreatePatients < ActiveRecord::Migration[7.2]
     end
 
     add_index :patients, :email, unique: true
-    add_index :patients, [:id, :api_key], unique: true, name: 'index_patients_on_id_and_api_key'
+    add_index :patients, [ :id, :api_key ], unique: true, name: 'index_patients_on_id_and_api_key'
   end
 end

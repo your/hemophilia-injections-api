@@ -5,9 +5,9 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :patients, only: [:create] do
-        resources :injections, only: [:index, :create]
-        get 'adherence_score', to: 'adherence_scores#show', as: 'adherence_score'
+      resources :patients, only: [ :create ] do
+        resources :injections, only: [ :index, :create ]
+        get "adherence_score", to: "adherence_scores#show", as: "adherence_score"
       end
     end
   end

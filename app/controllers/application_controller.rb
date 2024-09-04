@@ -10,9 +10,9 @@ class ApplicationController < ActionController::API
     render json: {
       errors: [
         {
-          title: 'Internal Server Error',
+          title: "Internal Server Error",
           detail: exception.message,
-          code: '500'
+          code: "500"
         }
       ]
     }, status: :internal_server_error

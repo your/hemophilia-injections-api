@@ -55,11 +55,11 @@ RSpec.describe 'Api::V1::Patients', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
 
         expect(json_response['errors']).to eq(
-          [{
+          [ {
             "title" => "Invalid first_name",
             "detail" => "First name can't be blank",
             "source" => {}
-          }]
+          } ]
         )
       end
     end

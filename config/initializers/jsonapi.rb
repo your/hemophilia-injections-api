@@ -18,7 +18,7 @@ JSONAPI::Rails.configure do |config|
   #
   # Set a default JSON API object.
   config.jsonapi_object = {
-    version: '1.0'
+    version: "1.0"
   }
   #
   # # Set default cache.
@@ -72,6 +72,6 @@ JSONAPI::Rails.configure do |config|
   # # Set a logger.
   # config.logger = Logger.new(STDOUT)
   #
-  # # Uncomment the following to disable logging.
-  # config.logger = Logger.new('/dev/null')
+  # Uncomment the following to disable logging.
+  config.logger = Logger.new("/dev/null")
 end

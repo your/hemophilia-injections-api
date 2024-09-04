@@ -10,6 +10,6 @@ class CreateInjections < ActiveRecord::Migration[7.2]
       t.timestamps
     end
 
-    add_index :injections, [:lot_number, :drug_name, :date], unique: true, name: 'index_injections_on_lot_number_and_drug_name_and_date'
+    add_index :injections, [ :lot_number, :drug_name, :date ], unique: true, name: 'index_injections_on_lot_number_and_drug_name_and_date'
   end
 end

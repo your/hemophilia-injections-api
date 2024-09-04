@@ -48,7 +48,7 @@ RSpec.describe "Api::V1::Injections", type: :request do
                 "drug_name" => first_injection.drug_name,
                 "lot_number" => first_injection.lot_number,
                 "date" => first_injection.date.as_json
-              },
+              }
             },
             {
               "id" => second_injection.id.to_s,
@@ -103,11 +103,11 @@ RSpec.describe "Api::V1::Injections", type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response['errors']).to eq(
-          [{
+          [ {
             "title" => "Invalid dose_mm",
             "detail" => "Dose mm can't be blank",
             "source" => {}
-          }]
+          } ]
         )
       end
     end

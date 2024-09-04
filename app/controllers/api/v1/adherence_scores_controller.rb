@@ -3,6 +3,6 @@ class Api::V1::AdherenceScoresController < ApplicationController
 
   def show
     patient = Patient.find(params[:patient_id])
-    render jsonapi: patient, fields: { patients: [:adherence_score] }
+    render jsonapi: patient, fields: { patients: [ :adherence_score ] }
   end
 end

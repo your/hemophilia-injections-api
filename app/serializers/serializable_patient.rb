@@ -1,5 +1,5 @@
 class SerializablePatient < JSONAPI::Serializable::Resource
-  type 'patients'
+  type "patients"
 
   attributes :id, :api_key
 
