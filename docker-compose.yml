@@ -1,5 +1,5 @@
 services:
-  rails-app:
+  injections-api:
     build:
       context: .
       dockerfile: Dockerfile
@@ -22,3 +22,12 @@ services:
     environment:
       - SWAGGER_JSON=/usr/share/swagger-ui/openapi.yaml
     restart: always
+
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - RAILS_ENV=test
+    command: >
+      sh -c "bundle exec rspec"
