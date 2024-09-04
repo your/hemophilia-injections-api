@@ -29,4 +29,65 @@ RSpec.describe Patient, type: :model do
         .to(random_api_key)
     end
   end
+
+  describe '#adherence_score' do
+    let(:patient) { create(:patient, created_at: Date.new(2024, 1, 1)) }
+    let(:treatment_schedule_days) { 3 }
+
+    context 'when there are all the expected injections' do
+      before do
+        create(:injection, patient:, date: Date.new(2024, 1, 1))
+        create(:injection, patient:, date: Date.new(2024, 1, 4))
+        create(:injection, patient:, date: Date.new(2024, 1, 7))
+        create(:injection, patient:, date: Date.new(2024, 1, 10))
+      end
+
+      it 'calculates the correct adherence score' do
+        travel_to(Date.new(2024, 1, 12)) do
+          expect(patient.adherence_score(treatment_schedule_days)).to eq(100.0)
+        end
+      end
+    end
+
+    context 'when there are fewer on time injections than actual and expected' do
+      before do
+        create(:injection, patient:, date: Date.new(2024, 1, 1))
+        create(:injection, patient:, date: Date.new(2024, 1, 4))
+        create(:injection, patient:, date: Date.new(2024, 1, 6)) # not on time
+        create(:injection, patient:, date: Date.new(2024, 1, 10))
+        create(:injection, patient:, date: Date.new(2024, 1, 13))
+        create(:injection, patient:, date: Date.new(2024, 1, 16))
+        create(:injection, patient:, date: Date.new(2024, 1, 19))
+        create(:injection, patient:, date: Date.new(2024, 1, 22))
+        create(:injection, patient:, date: Date.new(2024, 1, 26)) # not on time
+        create(:injection, patient:, date: Date.new(2024, 1, 30)) # not on time
+        create(:injection, patient:, date: Date.new(2024, 1, 31))
+      end
+
+      it 'calculates the correct adherence score' do
+        travel_to(Date.new(2024, 2, 1)) do
+          expect(patient.adherence_score(treatment_schedule_days)).to eq(73.0)
+        end
+      end
+    end
+
+    context 'when there are fewer actual injections than expected' do
+      before do
+        create(:injection, patient:, date: Date.new(2024, 1, 1))
+        create(:injection, patient:, date: Date.new(2024, 1, 4))
+      end
+
+      it 'calculates the correct adherence score' do
+        travel_to(Date.new(2024, 1, 12)) do
+          expect(patient.adherence_score(treatment_schedule_days)).to eq(50.0)
+        end
+      end
+    end
+
+    context 'when there are no expected injections' do
+      it 'returns 0 for adherence score' do
+        expect(patient.adherence_score(treatment_schedule_days)).to eq(0.0)
+      end
+    end
+  end
 end
