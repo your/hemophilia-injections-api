@@ -5,7 +5,9 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :patients, only: [:create]
+      resources :patients, only: [:create] do
+        resources :injections, only: [:index, :create]
+      end
     end
   end
 end
