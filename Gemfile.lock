@@ -158,6 +158,8 @@ GEM
     parser (3.3.4.2)
       ast (~> 2.4.1)
       racc
+    prometheus-client (4.2.3)
+      base64
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -307,6 +309,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   jsonapi-rails
+  prometheus-client
   pry
   puma (>= 5.0)
   rack-cors

@@ -3,6 +3,7 @@ source "https://rubygems.org"
 gem "bootsnap", require: false
 gem "jsonapi-rails"
 gem "puma", ">= 5.0"
+gem "prometheus-client"
 gem "rack-cors"
 gem "rails", "~> 7.2.1"
 gem "sqlite3", ">= 1.4"
