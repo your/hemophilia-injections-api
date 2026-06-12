@@ -14,7 +14,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "factory_bot_rails"
   gem "faker"
-  gem "rspec-rails", "~> 7.0.0"
+  gem "rspec-rails", "~> 7.1.0"
   gem "rubocop-rails-omakase", require: false
   gem "shoulda-matchers", "~> 6.0"
   gem "pry"
